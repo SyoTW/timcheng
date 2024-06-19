@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Try-On Module</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #YMK-module {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+    </style>
+    <script>
+        (function(d, k) {
+            var s = d.createElement("script");
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = "https://plugins-media.perfectcorp.com/c18189-dev/sdk.js?apiKey=" + k;
+            var x = d.getElementsByTagName("script")[0];
+            x.parentNode.insertBefore(s, x);
+        })(document, "CCqR3Fnv9rrG5MV9pd1wMw");
+
+        var listeners = [];
+
+        function registerEvents() {
+            var l = YMK.addEventListener("loaded", function() {
+                console.log("Module loaded");
+            });
+
+            var l2 = YMK.addEventListener("closed", function() {
+                console.log("Module closed");
+            });
+
+            listeners.push(l, l2);
+        }
+
+        window.ymkAsyncInit = function() {
+            registerEvents();
+            YMK.init({ skinSmoothStrength: 50 });
+        };
+
+        function openVirtualTryOnModule() {
+            YMK.open();
+        }
+
+        function closeVirtualTryOnModule() {
+            YMK.close();
+            listeners.forEach(function(l) {
+                YMK.removeEventListener(l);
+            });
+        }
+
+        function clearMakeupEffect() {
+            if (YMK.isLoaded()) {
+                YMK.reset();
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Virtual Try-On Module</h1>
+    <div id="YMK-module"></div>
+    <button onclick="openVirtualTryOnModule()">モジュール起動</button>
+    <button onclick="closeVirtualTryOnModule()">モジュールを閉じる</button>
+    <br>
+    <button onclick="YMK.applyMakeupBySku('BCC-22781_20240507_LS_01_04')">グロウリップティント304</button>
+    <button onclick="YMK.applyMakeupBySku('BCC-22781_20240507_LS_01_05')">グロウリップティント401</button>
+</body>
+</html>
